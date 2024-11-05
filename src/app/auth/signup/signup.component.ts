@@ -35,7 +35,7 @@ export class SignupComponent implements OnInit {
   initialInputsValues = this.formService.loadFromData();
 
   form = new FormGroup({
-    email: new FormControl(this.initialInputsValues.email, {
+    email: new FormControl('', {
       validators: [Validators.email, Validators.required],
     }),
 
@@ -53,24 +53,24 @@ export class SignupComponent implements OnInit {
       }
     ),
 
-    firstName: new FormControl(this.initialInputsValues.firstName, {
+    firstName: new FormControl('', {
       validators: [Validators.required],
     }),
-    lastName: new FormControl(this.initialInputsValues.lastName, {
+    lastName: new FormControl('', {
       validators: [Validators.required],
     }),
 
     address: new FormGroup({
-      street: new FormControl(this.initialInputsValues.address.street, {
+      street: new FormControl('', {
         validators: [Validators.required],
       }),
-      number: new FormControl(this.initialInputsValues.address.number, {
+      number: new FormControl('', {
         validators: [Validators.required],
       }),
-      postalCode: new FormControl(this.initialInputsValues.address.postalCode, {
+      postalCode: new FormControl('', {
         validators: [Validators.required],
       }),
-      city: new FormControl(this.initialInputsValues.address.city, {
+      city: new FormControl('', {
         validators: [Validators.required],
       }),
     }),
