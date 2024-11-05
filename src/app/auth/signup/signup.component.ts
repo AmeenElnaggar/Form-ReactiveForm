@@ -5,22 +5,8 @@ import {
   Validators,
   FormControl,
   ReactiveFormsModule,
-  AbstractControl,
 } from '@angular/forms';
 import { FormService } from '../form.service';
-
-function equalValues(controlName1: string, controlName2: string) {
-  return (control: AbstractControl) => {
-    const val1 = control.get(controlName1)?.value;
-    const val2 = control.get(controlName2)?.value;
-
-    if (val1 === val2) {
-      return null;
-    }
-
-    return { valuesNotEqual: true };
-  };
-}
 
 @Component({
   selector: 'app-signup',
@@ -32,7 +18,6 @@ function equalValues(controlName1: string, controlName2: string) {
 export class SignupComponent implements OnInit {
   private formService = inject(FormService);
   private destroyRef = inject(DestroyRef);
-  initialInputsValues = this.formService.loadFromData();
 
   form = new FormGroup({
     email: new FormControl('', {
@@ -49,7 +34,9 @@ export class SignupComponent implements OnInit {
         }),
       },
       {
-        validators: [equalValues('password', 'confirmPassword')],
+        validators: [
+          this.formService.equalValues('password', 'confirmPassword'),
+        ],
       }
     ),
 
@@ -86,6 +73,10 @@ export class SignupComponent implements OnInit {
   });
 
   ngOnInit() {
+    this.formService.inputsInitialValues(
+      this.form,
+      this.form.controls['address']
+    );
     const subscribtion = this.formService.saveFormData(this.form);
     this.destroyRef.onDestroy(() => subscribtion.unsubscribe());
   }
